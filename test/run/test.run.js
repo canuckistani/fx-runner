@@ -19,11 +19,25 @@ var fakeBinary = path.join(__dirname, "..", "utils", "dummybinary" +
 
 describe("fx-runner start", function () {
   describe("-b/--binary <FAKE_BINARY>", function () {
-    it("-p", function (done) {
-      var proc = exec("start -v -b " + fakeBinary + " -p erik", {}, function (err, stdout, stderr) {
+    it("-p <name>", function (done) {
+      var proc = exec("start -v -b " + fakeBinary + " -p foo", {}, function (err, stdout, stderr) {
         expect(err).to.not.be.ok;
         expect(stderr).to.not.be.ok;
-        expect(stdout).to.contain("-P erik");
+        expect(stdout).to.contain("-P foo");
+        expect(stdout).to.not.contain("--P");
+        expect(stdout).to.not.contain("-foreground");
+        expect(stdout).to.not.contain("-no-remote");
+        expect(stdout).to.not.contain("-new-instance");
+        done();
+      });
+    });
+
+    it("-p <path>", function (done) {
+      var proc = exec("start -v -b " + fakeBinary + " -p ./", {}, function (err, stdout, stderr) {
+        expect(err).to.not.be.ok;
+        expect(stderr).to.not.be.ok;
+        expect(stdout).to.contain("-profile ./");
+        expect(stdout).to.not.contain("--profile");
         expect(stdout).to.not.contain("--P");
         expect(stdout).to.not.contain("-foreground");
         expect(stdout).to.not.contain("-no-remote");
