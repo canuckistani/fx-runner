@@ -16,7 +16,7 @@ program
   .description("Start Firefox")
   .action(function() {
     run({
-      binary: program.binary || "firefox",
+      binary: program.binary || process.env.JPM_FIREFOX_BINARY || "firefox",
       profile: program.profile,
       "new-instance": !!program.newInstance ? true : false
     }).then(null, console.exception);
