@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+
+var VERSION = require("../package.json").version;
+var program = require("commander");
+var run = require("../lib/run");
+
+program
+  .version(VERSION)
+  .option("-b, --binary <path>", "Path of Firefox binary to use.")
+  .option("-p, --profile <path>", "Path or name of Firefox profile to use.")
+  .option("-v, --verbose", "More verbose logging to stdout.")
+  .option("--new-instance", "Use a new instance")
+
+program
+  .command("start")
+  .description("Start Firefox")
+  .action(function() {
+    run({
+      binary: program.binary || "firefox",
+      profile: program.profile,
+      "new-instance": !!program.newInstance ? true : false
+    }).then(null, console.exception);
+  });
+
+program.parse(process.argv);
