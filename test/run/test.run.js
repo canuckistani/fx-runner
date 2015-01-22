@@ -18,14 +18,58 @@ var fakeBinary = path.join(__dirname, "..", "utils", "dummybinary" +
   (isWindows ? ".bat" : ".sh"));
 
 describe("fx-runner start", function () {
-  describe("-b/--binary <BINARY>", function () {
-    it("Uses specified binary instead of default Firefox", function (done) {
+  describe("-b/--binary <FAKE_BINARY>", function () {
+    it("-p", function (done) {
       var proc = exec("start -v -b " + fakeBinary + " -p erik", {}, function (err, stdout, stderr) {
         expect(err).to.not.be.ok;
         expect(stderr).to.not.be.ok;
         expect(stdout).to.contain("-P erik");
+        expect(stdout).to.not.contain("--P");
+        expect(stdout).to.not.contain("-foreground");
+        expect(stdout).to.not.contain("-no-remote");
+        expect(stdout).to.not.contain("-new-instance");
+        done();
+      });
+    });
+
+    it("--foreground", function (done) {
+      var proc = exec("start -v -b " + fakeBinary + " --foreground", {}, function (err, stdout, stderr) {
+        expect(err).to.not.be.ok;
+        expect(stderr).to.not.be.ok;
+        expect(stdout).to.contain("-foreground");
+        expect(stdout).to.not.contain("--foreground");
+        expect(stdout).to.not.contain("-P");
+        expect(stdout).to.not.contain("-no-remote");
+        expect(stdout).to.not.contain("-new-instance");
+        done();
+      });
+    });
+
+    it("--no-remote", function (done) {
+      var proc = exec("start -v -b " + fakeBinary + " --no-remote", {}, function (err, stdout, stderr) {
+        expect(err).to.not.be.ok;
+        expect(stderr).to.not.be.ok;
+        expect(stdout).to.contain("-no-remote");
+        expect(stdout).to.not.contain("--no-remote");
+        expect(stdout).to.not.contain("-P");
+        expect(stdout).to.not.contain("-foreground");
+        expect(stdout).to.not.contain("-new-instance");
+        done();
+      });
+    });
+
+    it("--new-instance", function (done) {
+      var proc = exec("start -v -b " + fakeBinary + " --new-instance", {}, function (err, stdout, stderr) {
+        expect(err).to.not.be.ok;
+        expect(stderr).to.not.be.ok;
+        expect(stdout).to.contain("-new-instance");
+        expect(stdout).to.not.contain("--new-instance");
+        expect(stdout).to.not.contain("-P");
+        expect(stdout).to.not.contain("-foreground");
+        expect(stdout).to.not.contain("-no-remote");
         done();
       });
     });
   });
+
 });
