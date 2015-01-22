@@ -12,6 +12,7 @@ var mocha = new Mocha({
 
 [
   require.resolve("./run/test.run.js"),
+  require.resolve("./run/test.utils.js"),
 ].sort().forEach(function(filepath) {
   filepath && mocha.addFile(filepath);
 })
