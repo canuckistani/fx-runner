@@ -26,7 +26,8 @@ program
       "foreground": !!program.foreground ? true : false,
       "no-remote": !program.remote ? true : false,
     })
-    .then(function(firefox) {
+    .then(function(results) {
+      var firefox = results.process;
       if (program.verbose) {
         firefox.stdout.pipe(process.stdout)
       }
