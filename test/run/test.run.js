@@ -46,6 +46,21 @@ describe("fx-runner start", function () {
       });
     });
 
+    it("--binary-args <CMDARGS>", function (done) {
+      var proc = exec("start -v -b " + fakeBinary + " --binary-args \"-test\" ./", {}, function (err, stdout, stderr) {
+        expect(err).to.not.be.ok;
+        expect(stderr).to.not.be.ok;
+        expect(stdout).to.contain("-test");
+        expect(stdout).to.not.contain("--binary-args");
+        expect(stdout).to.not.contain("--profile");
+        expect(stdout).to.not.contain("--P");
+        expect(stdout).to.not.contain("-foreground");
+        expect(stdout).to.not.contain("-no-remote");
+        expect(stdout).to.not.contain("-new-instance");
+        done();
+      });
+    });
+
     it("--foreground", function (done) {
       var proc = exec("start -v -b " + fakeBinary + " --foreground", {}, function (err, stdout, stderr) {
         expect(err).to.not.be.ok;

@@ -7,6 +7,7 @@ var run = require("../lib/run");
 program
   .version(VERSION)
   .option("-b, --binary <path>", "Path of Firefox binary to use.")
+  .option("--binary-args <CMDARGS>", "Pass additional arguments into Firefox.")
   .option("-p, --profile <path>", "Path or name of Firefox profile to use.")
   .option("-v, --verbose", "More verbose logging to stdout.")
   .option("--new-instance", "Use a new instance")
@@ -25,6 +26,7 @@ program
       "new-instance": !!program.newInstance ? true : false,
       "foreground": !!program.foreground ? true : false,
       "no-remote": !program.remote ? true : false,
+      "binary-args": program.binaryArgs || ""
     })
     .then(function(results) {
       var firefox = results.process;
