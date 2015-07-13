@@ -6,6 +6,7 @@
 var os = require("os");
 var fs = require("fs");
 var path = require("path");
+var which = require("which");
 var chai = require("chai");
 var expect = chai.expect;
 var utils = require("../../lib/utils");
@@ -75,6 +76,7 @@ describe("lib/utils", function () {
 
   it("normalizeBinary() default sets (non-windows)", function (done) {
     delete process.env.JPM_FIREFOX_BINARY;
+    var systemFirefox = which.sync("firefox");
     var args = 0;
     var expected = 1;
 
@@ -86,7 +88,7 @@ describe("lib/utils", function () {
     ].map(function(fixture) {
       var promise = binary.apply(binary, fixture[args]);
       return promise.then(function(actual) {
-        expect(actual).to.be.equal(fixture[expected]);
+        expect([systemFirefox, fixture[expected]]).to.contain(actual);
       });
     });
     all(promises).then(done.bind(null, null), done);
