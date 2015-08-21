@@ -13,7 +13,7 @@ before_script:
   - npm install mozilla-download -g
   - pwd
   - cd ..
-  - mozilla-download --branch nightly -c prerelease --host ftp.mozilla.org firefox
+  - mozilla-download --branch nightly firefox
   - cd $TRAVIS_BUILD_DIR
   - pwd
 
